@@ -18,3 +18,9 @@
 [submodule "src/isa-l"]
 	path = src/isa-l
 	url = https://github.com/ceph/isa-l
+[submodule "src/zstd"]
+	path = src/zstd
+	url = https://github.com/facebook/zstd
+[submodule "src/xxHash"]
+	path = src/xxHash
+	url = https://github.com/ceph/xxHash.git
