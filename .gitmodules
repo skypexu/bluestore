@@ -12,9 +12,6 @@
 [submodule "src/rocksdb"]
 	path = src/rocksdb
 	url = https://github.com/ceph/rocksdb
-[submodule "xxHash"]
-	path = xxHash
-	url = https://github.com/ceph/xxHash.git
 [submodule "src/isa-l"]
 	path = src/isa-l
 	url = https://github.com/ceph/isa-l
