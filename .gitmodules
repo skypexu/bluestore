@@ -1,3 +1,7 @@
 [submodule "src/fmt"]
 	path = src/fmt
 	url = https://github.com/ceph/fmt.git
+[submodule "src/erasure-code/jerasure/jerasure"]
+	path = src/erasure-code/jerasure/jerasure
+	url = https://github.com/ceph/jerasure.git
+	branch = v2-ceph
