@@ -44,7 +44,7 @@
 #endif
 
 
-#include "crush/CrushLocation.h"
+//#include "crush/CrushLocation.h"
 
 class AdminSocket;
 class CryptoHandler;
@@ -367,7 +367,7 @@ private:
   md_config_obs_t *_lockdep_obs;
 #endif
 public:
-  TOPNSPC::crush::CrushLocation crush_location;
+  //TOPNSPC::crush::CrushLocation crush_location;
 private:
 
   enum {
