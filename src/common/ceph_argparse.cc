@@ -13,11 +13,12 @@
  */
 #include <stdarg.h>
 
-#include "auth/Auth.h"
+//#include "auth/Auth.h"
 #include "common/ceph_argparse.h"
 #include "common/config.h"
 #include "common/version.h"
 #include "include/str_list.h"
+#include "common/strtol.h"
 
 /*
  * Ceph argument parsing library
