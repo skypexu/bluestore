@@ -152,6 +152,7 @@ if(NOT HAVE_CXX11_ATOMIC)
 endif()
 
 find_package(Backtrace)
+#find_package(cap REQUIRED)
 
 if(LINUX)
   find_package(udev REQUIRED)
