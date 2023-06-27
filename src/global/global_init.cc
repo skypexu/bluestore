@@ -29,7 +29,7 @@
 #include "global/signal_handler.h"
 #include "include/compat.h"
 #include "include/str_list.h"
-#include "mon/MonClient.h"
+//#include "mon/MonClient.h"
 
 #ifndef _WIN32
 #include <pwd.h>
@@ -365,16 +365,16 @@ global_init(const std::map<std::string,std::string> *defaults,
     // make sure our mini-session gets legacy values
     g_conf().apply_changes(nullptr);
 
-    ceph::async::io_context_pool cp(1);
-    MonClient mc_bootstrap(g_ceph_context, cp);
-    if (mc_bootstrap.get_monmap_and_config() < 0) {
-      cp.stop();
-      g_ceph_context->_log->flush();
-      cerr << "failed to fetch mon config (--no-mon-config to skip)"
-	   << std::endl;
-      _exit(1);
-    }
-    cp.stop();
+//    ceph::async::io_context_pool cp(1);
+//    MonClient mc_bootstrap(g_ceph_context, cp);
+//    if (mc_bootstrap.get_monmap_and_config() < 0) {
+//      cp.stop();
+//      g_ceph_context->_log->flush();
+//      cerr << "failed to fetch mon config (--no-mon-config to skip)"
+//	   << std::endl;
+//      _exit(1);
+//    }
+//    cp.stop();
   }
 
   // Expand metavariables. Invoke configuration observers. Open log file.
@@ -435,11 +435,11 @@ global_init(const std::map<std::string,std::string> *defaults,
   if (code_env == CODE_ENVIRONMENT_DAEMON && !(flags & CINIT_FLAG_NO_DAEMON_ACTIONS))
     output_ceph_version();
 
-  if (g_ceph_context->crush_location.init_on_startup()) {
-    cerr << " failed to init_on_startup : " << cpp_strerror(errno) << std::endl;
-    exit(1);
-  }
-
+//  if (g_ceph_context->crush_location.init_on_startup()) {
+//    cerr << " failed to init_on_startup : " << cpp_strerror(errno) << std::endl;
+//    exit(1);
+//  }
+//
   return boost::intrusive_ptr<CephContext>{g_ceph_context, false};
 }
 
