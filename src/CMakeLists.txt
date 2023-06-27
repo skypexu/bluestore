@@ -108,7 +108,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
     set(minimum_gcc_version 10)
   else()
     # require >= gcc-11 for compiling the whole tree
-    set(minimum_gcc_version 11)
+    set(minimum_gcc_version 10)
   endif()
   if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS minimum_gcc_version)
     message(FATAL_ERROR "C++20 support requires a minimum GCC version of ${minimum_gcc_version}.")
@@ -330,6 +330,7 @@ CHECK_C_COMPILER_FLAG("-fvar-tracking-assignments" HAS_VTA)
 add_subdirectory(common)
 add_subdirectory(msg)
 add_subdirectory(arch)
+add_subdirectory(extblkdev)
 
 set(ceph_common_objs
   $<TARGET_OBJECTS:common-common-objs>
@@ -341,7 +342,11 @@ set(ceph_common_objs
   $<TARGET_OBJECTS:common-objs>
   )
 set(ceph_common_deps
-  json_spirit erasure_code extblkdev arch crc32
+  json_spirit 
+#  erasure_code
+  extblkdev
+  arch
+  crc32
   ${LIB_RESOLV}
   Boost::thread
   Boost::system
@@ -485,7 +490,7 @@ if(NOT WIN32)
 add_subdirectory(blk)
 endif(NOT WIN32)
 
-add_subdirectory(erasure-code)
+#add_subdirectory(erasure-code)
 
 # Support/Tools
 if(WITH_TESTS)
