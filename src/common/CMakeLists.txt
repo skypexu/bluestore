@@ -87,10 +87,10 @@ set(common_srcs
   perf_counters_key.cc
   perf_histogram.cc
   pick_address.cc
-  random_string.cc
+#  random_string.cc
   reverse.c
   run_cmd.cc
-  scrub_types.cc
+#  scrub_types.cc
   signal.cc
   snap_types.cc
   str_list.cc
