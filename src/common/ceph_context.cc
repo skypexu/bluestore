@@ -41,7 +41,7 @@
 
 #include "log/Log.h"
 
-#include "auth/Crypto.h"
+//#include "auth/Crypto.h"
 #include "include/str_list.h"
 #include "common/config.h"
 #include "common/config_obs.h"
@@ -49,7 +49,7 @@
 #include "common/valgrind.h"
 #include "include/spinlock.h"
 #if !(defined(WITH_SEASTAR) && !defined(WITH_ALIEN))
-#include "mon/MonMap.h"
+//#include "mon/MonMap.h"
 #endif
 
 // for CINIT_FLAGS
@@ -68,8 +68,8 @@ using ceph::HeartbeatMap;
 namespace crimson::common {
 CephContext::CephContext()
   : _conf{crimson::common::local_conf()},
-    _perf_counters_collection{crimson::common::local_perf_coll()},
-    _crypto_random{std::make_unique<CryptoRandom>()}
+    _perf_counters_collection{crimson::common::local_perf_coll()}
+   // _crypto_random{std::make_unique<CryptoRandom>()}
 {}
 
 // define the dtor in .cc as CryptoRandom is an incomplete type in the header
@@ -81,10 +81,10 @@ uint32_t CephContext::get_module_type() const
   return CEPH_ENTITY_TYPE_OSD;
 }
 
-CryptoRandom* CephContext::random() const
-{
-  return _crypto_random.get();
-}
+//CryptoRandom* CephContext::random() const
+//{
+//  return _crypto_random.get();
+//}
 
 CephContext* CephContext::get()
 {
@@ -430,7 +430,7 @@ public:
 
     }
     if (changed.count("crush_location")) {
-      cct->crush_location.update_from_conf();
+      //cct->crush_location.update_from_conf();
     }
   }
 };
@@ -715,13 +715,13 @@ CephContext::CephContext(uint32_t module_type_,
     _perf_counters_collection(NULL),
     _perf_counters_conf_obs(NULL),
     _heartbeat_map(NULL),
-    _crypto_none(NULL),
-    _crypto_aes(NULL),
-    _plugin_registry(NULL),
+    //_crypto_none(NULL),
+    //_crypto_aes(NULL),
+    _plugin_registry(NULL)
 #ifdef CEPH_DEBUG_MUTEX
-    _lockdep_obs(NULL),
+    ,_lockdep_obs(NULL)
 #endif
-    crush_location(this)
+    //crush_location(this)
 {
   if (options.create_log) {
     _log = options.create_log(&_conf->subsys);
@@ -776,9 +776,9 @@ CephContext::CephContext(uint32_t module_type_,
   _admin_socket->register_command("log dump", _admin_hook, "dump recent log entries to log file");
   _admin_socket->register_command("log reopen", _admin_hook, "reopen log file");
 
-  _crypto_none = CryptoHandler::create(CEPH_CRYPTO_NONE);
-  _crypto_aes = CryptoHandler::create(CEPH_CRYPTO_AES);
-  _crypto_random.reset(new CryptoRandom());
+  //_crypto_none = CryptoHandler::create(CEPH_CRYPTO_NONE);
+  //_crypto_aes = CryptoHandler::create(CEPH_CRYPTO_AES);
+  //_crypto_random.reset(new CryptoRandom());
 
   lookup_or_create_singleton_object<MempoolObs>("mempool_obs", false, this);
 }
@@ -824,8 +824,8 @@ CephContext::~CephContext()
   delete _log;
   _log = NULL;
 
-  delete _crypto_none;
-  delete _crypto_aes;
+//  delete _crypto_none;
+//  delete _crypto_aes;
   if (_crypto_inited > 0) {
     ceph_assert(_crypto_inited == 1);  // or else someone explicitly did
 				  // init but not shutdown
@@ -848,14 +848,14 @@ void CephContext::put() {
 void CephContext::init_crypto()
 {
   if (_crypto_inited++ == 0) {
-    TOPNSPC::crypto::init();
+//    TOPNSPC::crypto::init();
   }
 }
 
 void CephContext::shutdown_crypto()
 {
   if (--_crypto_inited == 0) {
-    TOPNSPC::crypto::shutdown(g_code_env == CODE_ENVIRONMENT_LIBRARY);
+//    TOPNSPC::crypto::shutdown(g_code_env == CODE_ENVIRONMENT_LIBRARY);
   }
 }
 
@@ -1005,17 +1005,17 @@ AdminSocket *CephContext::get_admin_socket()
   return _admin_socket;
 }
 
-CryptoHandler *CephContext::get_crypto_handler(int type)
-{
-  switch (type) {
-  case CEPH_CRYPTO_NONE:
-    return _crypto_none;
-  case CEPH_CRYPTO_AES:
-    return _crypto_aes;
-  default:
-    return NULL;
-  }
-}
+//CryptoHandler *CephContext::get_crypto_handler(int type)
+//{
+//  switch (type) {
+//  case CEPH_CRYPTO_NONE:
+//    return _crypto_none;
+//  case CEPH_CRYPTO_AES:
+//    return _crypto_aes;
+//  default:
+//    return NULL;
+//  }
+//}
 
 void CephContext::notify_pre_fork()
 {
@@ -1047,13 +1047,13 @@ void CephContext::notify_post_fork()
     t->handle_post_fork();
 }
 
-void CephContext::set_mon_addrs(const MonMap& mm) {
-  std::vector<entity_addrvec_t> mon_addrs;
-  for (auto& i : mm.mon_info) {
-    mon_addrs.push_back(i.second.public_addrs);
-  }
-
-  set_mon_addrs(mon_addrs);
-}
+//void CephContext::set_mon_addrs(const MonMap& mm) {
+//  std::vector<entity_addrvec_t> mon_addrs;
+//  for (auto& i : mm.mon_info) {
+//    mon_addrs.push_back(i.second.public_addrs);
+//  }
+//
+//  set_mon_addrs(mon_addrs);
+//}
 }
 #endif	// WITH_SEASTAR

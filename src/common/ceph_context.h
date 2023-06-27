@@ -94,7 +94,7 @@ public:
   CephContext* get();
   void put();
 private:
-  std::unique_ptr<CryptoRandom> _crypto_random;
+//  std::unique_ptr<CryptoRandom> _crypto_random;
   unsigned nref;
   ceph::PluginRegistry* _plugin_registry;
 };
@@ -224,9 +224,9 @@ public:
   /**
    * get a crypto handler
    */
-  CryptoHandler *get_crypto_handler(int type);
+//  CryptoHandler *get_crypto_handler(int type);
 
-  CryptoRandom* random() const { return _crypto_random.get(); }
+//  CryptoRandom* random() const { return _crypto_random.get(); }
 
   /// check if experimental feature is enable, and emit appropriate warnings
   bool check_experimental_feature_enabled(const std::string& feature);
@@ -279,16 +279,16 @@ public:
    *
    * @param mm MonMap to extract and update mon addrs
    */
-  void set_mon_addrs(const MonMap& mm);
-  void set_mon_addrs(const std::vector<entity_addrvec_t>& in) {
-    auto ptr = std::make_shared<std::vector<entity_addrvec_t>>(in);
-    atomic_store_explicit(&_mon_addrs, std::move(ptr), std::memory_order_relaxed);
-  }
-  std::shared_ptr<std::vector<entity_addrvec_t>> get_mon_addrs() const {
-    auto ptr = atomic_load_explicit(&_mon_addrs, std::memory_order_relaxed);
-    return ptr;
-  }
-
+//  void set_mon_addrs(const MonMap& mm);
+//  void set_mon_addrs(const std::vector<entity_addrvec_t>& in) {
+//    auto ptr = std::make_shared<std::vector<entity_addrvec_t>>(in);
+//    atomic_store_explicit(&_mon_addrs, std::move(ptr), std::memory_order_relaxed);
+//  }
+//  std::shared_ptr<std::vector<entity_addrvec_t>> get_mon_addrs() const {
+//    auto ptr = atomic_load_explicit(&_mon_addrs, std::memory_order_relaxed);
+//    return ptr;
+//  }
+//
 private:
 
 
@@ -353,9 +353,9 @@ private:
   std::vector<ForkWatcher*> _fork_watchers;
 
   // crypto
-  CryptoHandler *_crypto_none;
-  CryptoHandler *_crypto_aes;
-  std::unique_ptr<CryptoRandom> _crypto_random;
+//  CryptoHandler *_crypto_none;
+//  CryptoHandler *_crypto_aes;
+//  std::unique_ptr<CryptoRandom> _crypto_random;
 
   // experimental
   CephContextObs *_cct_obs;
