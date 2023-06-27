@@ -15,7 +15,7 @@
 // -----------------------------------------------------------------------------
 #include "common/debug.h"
 #include "ZlibCompressor.h"
-#include "osd/osd_types.h"
+//#include "osd/osd_types.h"
 #include "isa-l/include/igzip_lib.h"
 // -----------------------------------------------------------------------------
 

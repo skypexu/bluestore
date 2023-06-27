@@ -17,8 +17,8 @@
 #include "common/perf_counters.h"
 
 // rbd feature and io operation validation
-#include "librbd/Features.h"
-#include "librbd/io/IoOperations.h"
+//#include "librbd/Features.h"
+//#include "librbd/io/IoOperations.h"
 
 using std::ostream;
 using std::ostringstream;
