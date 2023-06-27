@@ -44,7 +44,8 @@ if(HAVE_RDMA)
     async/rdma/RDMAStack.cc)
 endif()
 
-add_library(common-msg-objs OBJECT ${msg_srcs})
+#add_library(common-msg-objs OBJECT ${msg_srcs})
+add_library(common-msg-objs OBJECT msg_types.cc)
 target_compile_definitions(common-msg-objs PRIVATE
   $<TARGET_PROPERTY:fmt::fmt,INTERFACE_COMPILE_DEFINITIONS>)
 target_include_directories(common-msg-objs PRIVATE ${OPENSSL_INCLUDE_DIR})
