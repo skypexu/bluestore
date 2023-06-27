@@ -35,9 +35,11 @@
 #include "include/ceph_assert.h" // Because intrusive_ptr clobbers our assert...
 #include "include/buffer.h"
 #include "include/types.h"
-#include "msg/Connection.h"
+//#include "msg/Connection.h"
 #include "msg/MessageRef.h"
 #include "msg_types.h"
+
+#if 0
 
 #ifdef WITH_SEASTAR
 #  include "crimson/net/SocketConnection.h"
@@ -585,6 +587,8 @@ MURef<T> make_message(Args&&... args) {
 
 #if FMT_VERSION >= 90000
 template <std::derived_from<Message> M> struct fmt::formatter<M> : fmt::ostream_formatter {};
+#endif
+
 #endif
 
 #endif
