@@ -28,7 +28,7 @@ set(common_srcs
   Graylog.cc
   HTMLFormatter.cc
   HeartbeatMap.cc
-  LogClient.cc
+  #LogClient.cc
   LogEntry.cc
   ostream_temp.cc
   OutputDataSocket.cc
@@ -42,8 +42,8 @@ set(common_srcs
   TracepointProvider.cc
   TrackedOp.cc
   WorkQueue.cc
-  admin_socket.cc
-  admin_socket_client.cc
+#  admin_socket.cc
+#  admin_socket_client.cc
   assert.cc
   bit_str.cc
   bloom_filter.cc
