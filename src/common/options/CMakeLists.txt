@@ -83,25 +83,25 @@ if(WITH_MGR)
 endif()
 
 add_options(global)
-add_options(cephfs-mirror)
-add_options(crimson)
-add_options(mgr)
-add_options(mds)
-add_options(mds-client)
-add_options(mon)
-add_options(osd)
-add_options(rbd)
-add_options(rbd-mirror)
-add_options(immutable-object-cache)
-add_options(ceph-exporter)
-
-# if set to empty string, system default luarocks package location (if exist) will be used
-set(rgw_luarocks_location "")
-if(WITH_RADOSGW_LUA_PACKAGES)
-  set(rgw_luarocks_location "/tmp/luarocks")
-endif()
-add_options(rgw)
-
+#add_options(cephfs-mirror)
+#add_options(crimson)
+#add_options(mgr)
+#add_options(mds)
+#add_options(mds-client)
+#add_options(mon)
+#add_options(osd)
+#add_options(rbd)
+#add_options(rbd-mirror)
+#add_options(immutable-object-cache)
+#add_options(ceph-exporter)
+#
+## if set to empty string, system default luarocks package location (if exist) will be used
+#set(rgw_luarocks_location "")
+#if(WITH_RADOSGW_LUA_PACKAGES)
+#  set(rgw_luarocks_location "/tmp/luarocks")
+#endif()
+#add_options(rgw)
+#
 add_library(common-options-objs OBJECT
   ${common_options_srcs})
 add_custom_target(legacy-option-headers
