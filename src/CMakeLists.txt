@@ -484,6 +484,7 @@ if(NOT CEPH_BIG_ENDIAN)
   set(CEPH_LITTLE_ENDIAN 1)
 endif()
 
+add_subdirectory(kv)
 #add_subdirectory(os)
 
 if(NOT WIN32)
