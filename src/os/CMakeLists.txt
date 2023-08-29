@@ -14,7 +14,7 @@ if(WITH_BLUESTORE)
     bluestore/BitmapFreelistManager.cc
     bluestore/BlueFS.cc
     bluestore/bluefs_types.cc
-#    bluestore/BlueRocksEnv.cc
+    bluestore/BlueRocksEnv.cc
 #    bluestore/BlueStore.cc
     bluestore/simple_bitmap.cc
     bluestore/bluestore_types.cc
