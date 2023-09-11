@@ -44,7 +44,7 @@
 #include "FreelistManager.h"
 #include "BlueFS.h"
 #include "BlueRocksEnv.h"
-#include "auth/Crypto.h"
+//#include "auth/Crypto.h"
 #include "common/EventTrace.h"
 #include "perfglue/heap_profiler.h"
 #include "common/blkdev.h"

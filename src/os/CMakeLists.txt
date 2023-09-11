@@ -1,7 +1,7 @@
 set(libos_srcs
-#  ObjectStore.cc
-#  Transaction.cc
-#  DBObjectMap.cc
+  ObjectStore.cc
+  Transaction.cc
+  DBObjectMap.cc
 #  memstore/MemStore.cc
 #  kstore/KStore.cc
 #  kstore/kstore_types.cc
@@ -15,7 +15,7 @@ if(WITH_BLUESTORE)
     bluestore/BlueFS.cc
     bluestore/bluefs_types.cc
     bluestore/BlueRocksEnv.cc
-#    bluestore/BlueStore.cc
+    bluestore/BlueStore.cc
     bluestore/simple_bitmap.cc
     bluestore/bluestore_types.cc
     bluestore/fastbmap_allocator_impl.cc
