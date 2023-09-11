@@ -340,6 +340,7 @@ set(ceph_common_objs
   $<TARGET_OBJECTS:common_texttable_obj>
   $<TARGET_OBJECTS:compressor_objs>
   $<TARGET_OBJECTS:common-objs>
+  $<TARGET_OBJECTS:common_mountcephfs_objs>
   )
 set(ceph_common_deps
   json_spirit 
@@ -485,7 +486,7 @@ if(NOT CEPH_BIG_ENDIAN)
 endif()
 
 add_subdirectory(kv)
-#add_subdirectory(os)
+add_subdirectory(os)
 
 if(NOT WIN32)
 add_subdirectory(blk)
@@ -584,3 +585,4 @@ if(DOXYGEN_FOUND)
 endif()
 endif(FALSE)
 
+add_subdirectory(example)
