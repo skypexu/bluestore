@@ -30,8 +30,8 @@
 #include "common/ref.h"
 #include "common/cmdparse.h"
 
-class MCommand;
-class MMonCommand;
+///class MCommand;
+///class MMonCommand;
 
 inline constexpr auto CEPH_ADMIN_SOCK_VERSION = std::string_view("2");
 
@@ -160,8 +160,8 @@ public:
     std::ostream& errss,
     ceph::buffer::list *outbl);
 
-  void queue_tell_command(ceph::cref_t<MCommand> m);
-  void queue_tell_command(ceph::cref_t<MMonCommand> m); // for compat
+///  void queue_tell_command(ceph::cref_t<MCommand> m);
+///  void queue_tell_command(ceph::cref_t<MMonCommand> m); // for compat
 
 private:
 
@@ -192,8 +192,8 @@ private:
   std::unique_ptr<AdminSocketHook> getdescs_hook;
 
   std::mutex tell_lock;
-  std::list<ceph::cref_t<MCommand>> tell_queue;
-  std::list<ceph::cref_t<MMonCommand>> tell_legacy_queue;
+///  std::list<ceph::cref_t<MCommand>> tell_queue;
+//  std::list<ceph::cref_t<MMonCommand>> tell_legacy_queue;
 
   struct hook_info {
     AdminSocketHook* hook;

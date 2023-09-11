@@ -27,10 +27,12 @@
 #include "common/Cond.h"
 #endif
 
+#if 0
 #include "messages/MCommand.h"
 #include "messages/MCommandReply.h"
 #include "messages/MMonCommand.h"
 #include "messages/MMonCommandAck.h"
+#endif
 
 // re-include our assert to clobber the system one; fix dout:
 #include "include/ceph_assert.h"
@@ -408,6 +410,7 @@ void AdminSocket::do_accept()
 
 void AdminSocket::do_tell_queue()
 {
+#if 0
   ldout(m_cct,10) << __func__ << dendl;
   std::list<cref_t<MCommand>> q;
   std::list<cref_t<MMonCommand>> lq;
@@ -448,6 +451,7 @@ void AdminSocket::do_tell_queue()
 #endif
       });
   }
+#endif
 }
 
 int AdminSocket::execute_command(
@@ -560,6 +564,7 @@ AdminSocket::find_matched_hook(std::string& prefix,
   return {EINVAL, nullptr};
 }
 
+#if 0
 void AdminSocket::queue_tell_command(cref_t<MCommand> m)
 {
   ldout(m_cct,10) << __func__ << " " << *m << dendl;
@@ -574,6 +579,7 @@ void AdminSocket::queue_tell_command(cref_t<MMonCommand> m)
   tell_legacy_queue.push_back(std::move(m));
   wakeup();
 }
+#endif
 
 int AdminSocket::register_command(std::string_view cmddesc,
 				  AdminSocketHook *hook,
