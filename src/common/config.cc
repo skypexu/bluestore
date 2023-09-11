@@ -234,6 +234,7 @@ md_config_t::~md_config_t()
  */
 void md_config_t::validate_schema()
 {
+#if 0
   for (const auto &i : schema) {
     const auto &opt = i.second;
     for (const auto &see_also_key : opt.see_also) {
@@ -244,6 +245,7 @@ void md_config_t::validate_schema()
       }
     }
   }
+#endif
 
   for (const auto &i : legacy_values) {
     if (schema.count(i.first) == 0) {
