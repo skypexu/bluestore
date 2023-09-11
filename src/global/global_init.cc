@@ -622,6 +622,7 @@ int global_init_preload_erasure_code(const CephContext *cct)
 	}
   }
 
+#if 0
   std::stringstream ss;
   int r = ceph::ErasureCodePluginRegistry::instance().preload(
     plugins,
@@ -631,5 +632,8 @@ int global_init_preload_erasure_code(const CephContext *cct)
     derr << ss.str() << dendl;
   else
     dout(0) << ss.str() << dendl;
+#else
+  int r = 0; // XYF
+#endif
   return r;
 }
