@@ -317,6 +317,7 @@ set(libcommon_files
   common/error_code.cc
   common/tracer.cc
   log/Log.cc
+  osd/osd_types.cc
   )
 
 set_source_files_properties(ceph_ver.c
@@ -585,4 +586,5 @@ if(DOXYGEN_FOUND)
 endif()
 endif(FALSE)
 
+#add_subdirectory(osd)
 add_subdirectory(example)
