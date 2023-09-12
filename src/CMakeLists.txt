@@ -119,7 +119,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
   else()
     string(APPEND CMAKE_EXE_LINKER_FLAGS " -rdynamic")
   endif()
-  string(PREPEND CMAKE_CXX_FLAGS_DEBUG "-Og ")
+  string(PREPEND CMAKE_CXX_FLAGS_DEBUG "-O0 ")
   add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Wstrict-null-sentinel>)
   add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-Woverloaded-virtual>)
   # cmake does not add '-pie' for executables even if
