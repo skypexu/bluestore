@@ -91,11 +91,11 @@ add_dependencies(os compressor_plugins)
 add_dependencies(os crypto_plugins)
 
 
-###if(WITH_BLUESTORE)
-###  add_executable(ceph-bluestore-tool
-###    bluestore/bluestore_tool.cc)
-###  target_link_libraries(ceph-bluestore-tool
-###    os global)
-###  install(TARGETS ceph-bluestore-tool
-###    DESTINATION bin)
-###endif()
+if(WITH_BLUESTORE)
+  add_executable(ceph-bluestore-tool
+    bluestore/bluestore_tool.cc)
+  target_link_libraries(ceph-bluestore-tool
+    os global)
+  install(TARGETS ceph-bluestore-tool
+    DESTINATION bin)
+endif()
