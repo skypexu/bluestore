@@ -29,9 +29,9 @@ if(WITH_BLUESTORE)
 endif(WITH_BLUESTORE)
 
 if(WITH_ZBD)
-###  list(APPEND libos_srcs
-###    bluestore/ZonedFreelistManager.cc
-###    bluestore/ZonedAllocator.cc)
+  list(APPEND libos_srcs
+    bluestore/ZonedFreelistManager.cc
+    bluestore/ZonedAllocator.cc)
 endif()
 
 if(WITH_FUSE)
