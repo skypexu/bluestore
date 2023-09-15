@@ -5432,7 +5432,8 @@ inline std::ostream& operator<<(std::ostream& out, const ObjectExtent &ex)
              << ")";
 }
 
-
+// XYF
+#endif
 // ---------------------------------------
 
 class OSDSuperblock {
@@ -5473,6 +5474,8 @@ inline std::ostream& operator<<(std::ostream& out, const OSDSuperblock& sb)
              << ")";
 }
 
+#if 0
+//XYF
 
 // -------
 

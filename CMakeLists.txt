@@ -384,6 +384,13 @@ set(UNIT_TESTS_BUILT ${WITH_TESTS})
 set(CEPH_TEST_TIMEOUT 3600 CACHE STRING 
   "Maximum time before a CTest gets killed" )
 
+# fio
+option(WITH_FIO "build with fio plugin enabled" OFF)
+if(WITH_FIO)
+  include(BuildFIO)
+  build_fio()
+endif()
+
 if(LINUX)
   add_definitions(-D__linux__)
 endif(LINUX)

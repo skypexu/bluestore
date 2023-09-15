@@ -519,9 +519,9 @@ add_subdirectory(compressor)
 
 #add_subdirectory(tools)
 
-if(WITH_TESTS)
+#if(WITH_TESTS)
   add_subdirectory(test)
-endif()
+#endif()
 
 add_subdirectory(crypto)
 

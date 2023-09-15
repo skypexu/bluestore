@@ -5688,6 +5688,9 @@ void pg_hit_set_history_t::generate_test_instances(list<pg_hit_set_history_t*>& 
   ls.back()->history.push_back(pg_hit_set_info_t());
 }
 
+// XYF
+#endif
+
 // -- OSDSuperblock --
 
 void OSDSuperblock::encode(ceph::buffer::list &bl) const
@@ -5790,7 +5793,8 @@ void OSDSuperblock::generate_test_instances(list<OSDSuperblock*>& o)
   o.push_back(new OSDSuperblock(z));
   o.push_back(new OSDSuperblock(z));
 }
-
+#if 0
+// XYF
 // -- SnapSet --
 
 void SnapSet::encode(ceph::buffer::list& bl) const
