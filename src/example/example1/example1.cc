@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <thread>
 #include <vector>
 #include <semaphore.h>
 
@@ -270,7 +271,8 @@ int clone_range(std::unique_ptr<ObjectStore>& os,
 	return r1.result();
 }
 	
-int benchmark_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll, int id, int repeat)
+int benchmark_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll, int id, int repeat,
+	int block_size)
 {
 	char name[128];
 
@@ -279,7 +281,7 @@ int benchmark_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll, 
 	snprintf(name, sizeof(name), "object_%d_1", id);
 	Object o2(name, coll);
 
-	char buf[64 * 1024];
+	char buf[block_size];
 	memset(buf, 0, sizeof(buf));
 	strcpy(buf, "hello world");
 	int count = repeat;
@@ -287,13 +289,13 @@ int benchmark_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll, 
 	auto start = ceph_clock_now();
 	while (count-- > 0) {
 		for (int i = 0; i < 128; ++i) {
-			ret = write_object(os, o1, i * sizeof(buf), buf, sizeof(buf), WAIT_COMMIT);
+			ret = write_object(os, o1, i * block_size, buf, block_size, WAIT_COMMIT);
 			if (ret) {
 				printf("can not write object: %d\n", ret);
 				exit(1);
 			}
 
-			ret = write_object(os, o2, i * sizeof(buf), buf, sizeof(buf), WAIT_COMMIT);
+			ret = write_object(os, o2, i * block_size, buf, block_size, WAIT_COMMIT);
 			if (ret) {
 				printf("can not write object: %d\n", ret);
 				exit(1);
@@ -307,13 +309,13 @@ int benchmark_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll, 
 	start = ceph_clock_now();
 	while (count-- > 0) {
 		for (int i = 0; i < 128; ++i) {
-			ret = write_object(os, o1, i * sizeof(buf), buf, sizeof(buf), WAIT_COMMIT);
+			ret = write_object(os, o1, i * block_size, buf, block_size, WAIT_COMMIT);
 			if (ret) {
 				printf("can not write object: %d\n", ret);
 				exit(1);
 			}
 
-			ret = clone_range(os, o1, o2, i * sizeof(buf), sizeof(buf), i * sizeof(buf), WAIT_COMMIT);
+			ret = clone_range(os, o1, o2, i * block_size, block_size, i * block_size, WAIT_COMMIT);
 			if (ret) {
 				printf("can not clone_range: %d\n", ret);
 				exit(1);
@@ -322,7 +324,7 @@ int benchmark_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll, 
 	}
 	end = ceph_clock_now();
 	auto elapsed2 = (double)(end - start);
-	printf("thread 1: double write: %f, clone_range: %f\n", elapsed1, elapsed2);
+	printf("thread %d: double write: %f(s), clone_range: %f(s)\n", id, elapsed1, elapsed2);
 	return 0;
 }
 
@@ -348,13 +350,13 @@ int test_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll)
 	memset(buf, 0, sizeof(buf));
 	strcpy(buf, "hello world");
 
-	ret = write_object(os, o1, 512, buf, sizeof(buf), WAIT_COMMIT);
+	ret = write_object(os, o1, 4096, buf, sizeof(buf), WAIT_COMMIT);
 	if (ret) {
 		printf("can not write object: %d\n", ret);
 		exit(1);
 	}
 	bufferlist bl;
-    	ret = os->read(o1.coll.ch, o1.oid, 512, sizeof(buf), bl);
+    	ret = os->read(o1.coll.ch, o1.oid, 4096, sizeof(buf), bl);
 	if (ret != sizeof(buf)) {
 		printf("can not read object: %d\n", ret);
 		exit(1);
@@ -364,7 +366,7 @@ int test_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll)
 		exit(1);
 	}
 
-	ret = clone_range(os, o1, o2, 512, sizeof(buf), 0, WAIT_COMMIT);
+	ret = clone_range(os, o1, o2, 4096, sizeof(buf), 0, WAIT_COMMIT);
 	if (ret) {
 		printf("clone range error, %d\n", ret);
 		exit(1);
@@ -376,7 +378,7 @@ int test_clone_range(std::unique_ptr<ObjectStore>& os, MyCollection &coll)
 	strcpy(buf, "xxxx");
 
 	// overwrite object1 
-	ret = write_object(os, o1, 512, buf, sizeof(buf), WAIT_COMMIT);
+	ret = write_object(os, o1, 4096, buf, sizeof(buf), WAIT_COMMIT);
 	if (ret) {
 		printf("can not write object: %d\n", ret);
 		exit(1);
@@ -416,6 +418,19 @@ int main(int argc, const char **argv)
 		exit(0);
 	}
 
+	int nthread = 1;
+	int block_ksize = 64;
+	for (std::vector<const char*>::iterator i = args.begin(); i != args.end();) {
+		if (ceph_argparse_double_dash(args, i)) {
+			break;
+		} else if (ceph_argparse_witharg(args, i, &nthread, std::cout, "--threads", (char*)NULL)) {
+		} else if (ceph_argparse_witharg(args, i, &block_ksize, std::cout, "--block_ksize", (char*)NULL)) {
+		} else {
+			i++;
+		}
+	}
+	printf("threads = %d\n", nthread);
+
 	auto cct = global_init(
 		NULL,
     		args, CEPH_ENTITY_TYPE_OSD,
@@ -449,8 +464,19 @@ int main(int argc, const char **argv)
 
 	test_clone_range(os, collections[0]);
 
-	benchmark_clone_range(os, collections[0], 0, 100);
+	std::vector<std::thread> thread_list(nthread);
 
+	for (int i = 0; i < nthread; ++i) {
+		thread_list[i] = std::move(
+			std::thread([&] {
+					benchmark_clone_range(os, collections[0], i, 100, block_ksize * 1024);
+				}
+			));
+	}
+
+	for (int i = 0; i < nthread; ++i) {
+		thread_list[i].join();
+	}
 
 	// destructor MyCollection memory obj before umount,
 	// otherwise there is illegal reference to object store
