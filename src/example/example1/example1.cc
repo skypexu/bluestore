@@ -478,7 +478,7 @@ int main(int argc, const char **argv)
 		thread_list[i].join();
 	}
 
-	// destructor MyCollection memory obj before umount,
+	// destruct MyCollection memory obj before umount,
 	// otherwise there is illegal reference to object store
 	collections.clear();
 
