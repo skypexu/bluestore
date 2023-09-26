@@ -108,7 +108,7 @@ int init_collections(std::unique_ptr<ObjectStore>& os,
 	ceph_assert(count > 0);
 	collections.reserve(count);
 
-	const int split_bits = cbits(count - 1);
+	const int split_bits = 0; //cbits(count - 1);
 
 	{
 		// propagate Superblock object to ensure proper functioning of tools that
